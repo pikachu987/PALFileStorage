@@ -1,0 +1,6 @@
+framework module PALFileStorage {
+  umbrella header "PALFileStorage-umbrella.h"
+
+  export *
+  module * { export * }
+}

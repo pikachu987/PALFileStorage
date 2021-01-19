@@ -1,0 +1,6 @@
+framework module Pods_PALFileStorage_Example {
+  umbrella header "Pods-PALFileStorage_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

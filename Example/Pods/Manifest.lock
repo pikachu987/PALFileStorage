@@ -1,0 +1,16 @@
+PODS:
+  - PALFileStorage (0.1.0)
+
+DEPENDENCIES:
+  - PALFileStorage (from `../`)
+
+EXTERNAL SOURCES:
+  PALFileStorage:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  PALFileStorage: 4e67d009a5f16225e0aa2f5486b9a34febe12d85
+
+PODFILE CHECKSUM: 0db2ccfe41ba4d4e6e6ad9e7357d18c58e0c37c7
+
+COCOAPODS: 1.10.0
