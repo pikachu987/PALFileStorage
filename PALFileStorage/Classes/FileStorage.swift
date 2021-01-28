@@ -251,10 +251,12 @@ open class FileStorage: NSObject {
         } else if fileType == .file {
             let url = self.documentsURL.appendingPathComponent(path)
             guard let data = self.fileManager.contents(atPath: url.path) else { return nil }
-            return File(fileName: fileName, folderName: folderName, data: data)
+            let attributes = try? self.fileManager.attributesOfItem(atPath: url.path)
+            return File(fileName: fileName, folderName: folderName, data: data, attributes: attributes)
         } else {
             let url = self.documentsURL.appendingPathComponent(path)
-            var folder = Folder(fileName: fileName, folderName: folderName)
+            let attributes = try? self.fileManager.attributesOfItem(atPath: url.path)
+            var folder = Folder(fileName: fileName, folderName: folderName, attributes: attributes)
             guard let directorys = try? self.fileManager.contentsOfDirectory(atPath: url.path) else { return folder }
             if recursion {
                 folder.files = directorys.compactMap({ self.file($0, folderName: path, recursion: recursion) })
@@ -263,10 +265,12 @@ open class FileStorage: NSObject {
                     let fileType = self.fileType("\(path)/\($0)")
                     if fileType == .file {
                         let url = self.documentsURL.appendingPathComponent("\(path)/\($0)")
+                        let attributes = try? self.fileManager.attributesOfItem(atPath: url.path)
                         guard let data = self.fileManager.contents(atPath: url.path) else { return nil }
-                        return File(fileName: $0, folderName: path, data: data)
+                        return File(fileName: $0, folderName: path, data: data, attributes: attributes)
                     } else if fileType == .folder {
-                        return Folder(fileName: $0, folderName: path)
+                        let attributes = try? self.fileManager.attributesOfItem(atPath: $0)
+                        return Folder(fileName: $0, folderName: path, attributes: attributes)
                     } else {
                         return nil
                     }

@@ -24,4 +24,7 @@ public protocol FileNode {
     var fileType: FileType { get }
     var fileName: String { get }
     var folderName: String { get }
+    var creationDate: Date? { get }
+    var modificationDate: Date? { get }
+    var fileSize: Int? { get }
 }
