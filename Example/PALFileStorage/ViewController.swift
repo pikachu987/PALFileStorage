@@ -13,23 +13,26 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view, typically from a nib.
-        
-        if let file = FileStorage.file("", recursion: true) {
+
+
+        let fileStorage = DefaultFileStorage()
+        if let file = fileStorage.file(recursion: true) {
             print(file)
         }
         if let data = "test data".data(using: .utf8) {
-            print(FileStorage.save(data, fileName: FileStorage.makeOverlapFileName("test.txt", folderName: "test"), folderName: "test"))
-            print(FileStorage.save(data, fileName: FileStorage.makeOverlapFileName("test.txt", folderName: "test"), folderName: "test"))
-            print(FileStorage.save(data, fileName: FileStorage.makeOverlapFileName("test.txt", folderName: "test"), folderName: "test"))
-            print(FileStorage.save(data, fileName: FileStorage.makeOverlapFileName("test.txt", folderName: "test"), folderName: "test"))
-            print(FileStorage.save(data, fileName: FileStorage.makeOverlapFileName("test.txt", folderName: "test"), folderName: "test"))
-            print(FileStorage.save(data, fileName: FileStorage.makeOverlapFileName("test.txt", folderName: "test"), folderName: "test"))
+            print(fileStorage.save(data: data, fileName: fileStorage.makeName(name: "test.txt", parentFolderName: "test"), parentFolderName: "test"))
+            print(fileStorage.save(data: data, fileName: fileStorage.makeName(name: "test.txt", parentFolderName: "test"), parentFolderName: "test"))
+            print(fileStorage.save(data: data, fileName: fileStorage.makeName(name: "test.txt", parentFolderName: "test"), parentFolderName: "test"))
+            print(fileStorage.save(data: data, fileName: fileStorage.makeName(name: "test.txt", parentFolderName: "test"), parentFolderName: "test"))
+            print(fileStorage.save(data: data, fileName: fileStorage.makeName(name: "test.txt", parentFolderName: "test"), parentFolderName: "test"))
+            print(fileStorage.save(data: data, fileName: fileStorage.makeName(name: "test.txt", parentFolderName: "test"), parentFolderName: "test"))
         }
-        if let file = FileStorage.file("", recursion: true) {
+        if let file = fileStorage.file(recursion: true) {
             print(file)
         }
-        print(FileStorage.deleteFolder("test"))
+        print(fileStorage.deleteRootFolder())
     }
 
     override func didReceiveMemoryWarning() {

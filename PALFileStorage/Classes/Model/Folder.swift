@@ -20,19 +20,21 @@
 
 import Foundation
 
-public struct File: FileNode {
-    public var fileType: FileType = .file
+public struct Folder: FileNode {
+    public var fileType: FileType = .folder
     public var fileName: String
-    public var folderName: String
-    public var data: Data
+    public var parentFolderName: String
+    public var fullPath: URL
     public var creationDate: Date?
     public var modificationDate: Date?
     public var fileSize: Int?
-
-    public init(fileName: String, folderName: String, data: Data, attributes: [FileAttributeKey: Any]?) {
+    public var files: [FileNode]
+    
+    public init(fileName: String, parentFolderName: String, fullPath: URL, attributes: [FileAttributeKey: Any]?, files: [FileNode] = []) {
         self.fileName = fileName
-        self.folderName = folderName
-        self.data = data
+        self.parentFolderName = parentFolderName
+        self.fullPath = fullPath
+        self.files = files
         self.creationDate = attributes?[FileAttributeKey.creationDate] as? Date
         self.modificationDate = attributes?[FileAttributeKey.modificationDate] as? Date
         self.fileSize = attributes?[FileAttributeKey.size] as? Int

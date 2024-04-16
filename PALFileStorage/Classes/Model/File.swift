@@ -20,11 +20,23 @@
 
 import Foundation
 
-public protocol FileNode {
-    var fileType: FileType { get }
-    var fileName: String { get }
-    var folderName: String { get }
-    var creationDate: Date? { get }
-    var modificationDate: Date? { get }
-    var fileSize: Int? { get }
+public struct File: FileNode {
+    public var fileType: FileType = .file
+    public var fileName: String
+    public var parentFolderName: String
+    public var fullPath: URL
+    public var data: Data?
+    public var creationDate: Date?
+    public var modificationDate: Date?
+    public var fileSize: Int?
+
+    public init(fileName: String, parentFolderName: String, fullPath: URL, data: Data?, attributes: [FileAttributeKey: Any]?) {
+        self.fileName = fileName
+        self.parentFolderName = parentFolderName
+        self.fullPath = fullPath
+        self.data = data
+        self.creationDate = attributes?[FileAttributeKey.creationDate] as? Date
+        self.modificationDate = attributes?[FileAttributeKey.modificationDate] as? Date
+        self.fileSize = attributes?[FileAttributeKey.size] as? Int
+    }
 }

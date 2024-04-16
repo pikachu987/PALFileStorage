@@ -20,26 +20,10 @@
 
 import Foundation
 
-extension URL {
-    static let byteCountFormatter = ByteCountFormatter()
+open class DefaultFileStorage: FileStorage {
+    open var rootFolderName: String
 
-    func isDirectoryAndReachable() throws -> Bool {
-        guard try self.resourceValues(forKeys: [.isDirectoryKey]).isDirectory == true else {
-            return false
-        }
-        return try self.checkResourceIsReachable()
-    }
-
-    func directoryTotalAllocatedSize(includingSubfolders: Bool = true) throws -> Int? {
-        guard try self.isDirectoryAndReachable() else { return nil }
-        if includingSubfolders {
-            guard let urls = FileManager.default.enumerator(at: self, includingPropertiesForKeys: nil)?.allObjects as? [URL] else { return nil }
-            return try urls.lazy.reduce(0) {
-                    (try $1.resourceValues(forKeys: [.totalFileAllocatedSizeKey]).totalFileAllocatedSize ?? 0) + $0
-            }
-        }
-        return try FileManager.default.contentsOfDirectory(at: self, includingPropertiesForKeys: nil).lazy.reduce(0) {
-                 (try $1.resourceValues(forKeys: [.totalFileAllocatedSizeKey]).totalFileAllocatedSize ?? 0) + $0
-        }
+    public init(rootFolderName: String = "") {
+        self.rootFolderName = rootFolderName
     }
 }

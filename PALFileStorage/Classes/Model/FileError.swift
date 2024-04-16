@@ -20,21 +20,11 @@
 
 import Foundation
 
-public struct Folder: FileNode {
-    public var fileType: FileType = .folder
-    public var fileName: String
-    public var folderName: String
-    public var creationDate: Date?
-    public var modificationDate: Date?
-    public var fileSize: Int?
-    public var files: [FileNode]
-    
-    public init(fileName: String, folderName: String, attributes: [FileAttributeKey: Any]?, files: [FileNode] = []) {
-        self.fileName = fileName
-        self.folderName = folderName
-        self.files = files
-        self.creationDate = attributes?[FileAttributeKey.creationDate] as? Date
-        self.modificationDate = attributes?[FileAttributeKey.modificationDate] as? Date
-        self.fileSize = attributes?[FileAttributeKey.size] as? Int
-    }
+public enum FileError: Error {
+    case thisIsFile
+    case thisIsFolder
+    case emptyFileName
+    case overlap
+    case noSlashInFileName
+    case `default`(error: Error)
 }
