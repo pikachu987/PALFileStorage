@@ -96,6 +96,33 @@ extension FileStorage {
     }
 
     @discardableResult
+    public func copy(fromURL: URL, fileName: String, parentFolderName: String) -> Result<URL, FileError> {
+        if fileName.isEmpty {
+            return .failure(.emptyFileName)
+        }
+        if fileName.contains("/") {
+            return .failure(.noSlashInFileName)
+        }
+        if case .failure(let error) = createFolder(name: parentFolderName) {
+            return .failure(error)
+        }
+        let path = parentFolderName.appendSlash(path: fileName)
+        let fullPath = rootFolderPath.append(path: path)
+        let fileType = fileType(fullPath: fullPath)
+        if fileType == .folder {
+            return .failure(.thisIsFolder)
+        } else if fileType == .file {
+            return .failure(.overlap)
+        }
+        do {
+            try fileManager.copyItem(at: fromURL, to: fullPath)
+            return .success(fullPath)
+        } catch (let error) {
+            return .failure(.default(error: error))
+        }
+    }
+
+    @discardableResult
     public func save(data: Data, fileName: String, parentFolderName: String, allowOverlap: Bool = true, options: Data.WritingOptions = [.atomic]) -> Result<URL, FileError> {
         if fileName.isEmpty {
             return .failure(.emptyFileName)
