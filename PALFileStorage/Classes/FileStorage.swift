@@ -151,13 +151,19 @@ extension FileStorage {
 
     @discardableResult
     public func deleteFile(name fileName: String, parentFolderName: String) -> Result<Void, FileError> {
+        if fileName.isEmpty {
+            return .failure(.emptyFileName)
+        }
         let path = parentFolderName.appendSlash(path: fileName)
         return internalDelete(path: path)
     }
 
     @discardableResult
     public func deleteFolder(name folderName: String) -> Result<Void, FileError> {
-        internalDelete(path: folderName)
+        if folderName.isEmpty {
+            return .failure(.emptyFolderName)
+        }
+        return internalDelete(path: folderName)
     }
 
     @discardableResult

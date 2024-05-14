@@ -24,6 +24,7 @@ public enum FileError: Error {
     case thisIsFile
     case thisIsFolder
     case emptyFileName
+    case emptyFolderName
     case overlap
     case noSlashInFileName
     case `default`(error: Error)
